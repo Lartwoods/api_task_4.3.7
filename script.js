@@ -12,6 +12,10 @@ function createRepo(data) {
   reposList.appendChild(repoElement);
   repoElement.addEventListener("click", () => {
     createRepoInfo(data);
+
+    reposList.innerHTML = "";
+    reposList.style.display = "none";
+    return;
   });
 }
 
