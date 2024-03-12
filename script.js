@@ -22,10 +22,9 @@ document.body.appendChild(mainWrapper);
 mainWrapper.appendChild(mainDiv);
 document.body.style.backgroundColor = "#eee";
 
-console.log(mainDiv);
-
 const searchInput = createEl("input", "main__input");
 searchInput.type = "text";
+searchInput.placeholder = "Type your text here...";
 mainDiv.appendChild(searchInput);
 const searchSpan = createEl("span", "main__searchSpan");
 mainDiv.appendChild(searchSpan);
@@ -33,10 +32,8 @@ const repos = createEl("div", "repos");
 const reposList = createEl("ul", "repos__list");
 mainDiv.appendChild(repos);
 repos.appendChild(reposList);
-const reposInfo = createEl("div", "repos-info");
-const reposInfoList = createEl("div", "repos-info__list");
+const reposInfo = createEl("div", "repos__info");
 mainDiv.appendChild(reposInfo);
-reposInfo.appendChild(reposInfoList);
 
 const repo_per_page = 5;
 
@@ -77,9 +74,19 @@ const debounce = (fn, debounceTime) => {
 
 searchInput.addEventListener("keyup", debounce(searchRepos, 400));
 function createRepoInfo(data) {
-  const repoInfo = createEl("div", "repos__info");
-  repoInfo.innerHTML = `<div><p>Name:</p><p>${data.name}</p></div>
-  <div><p>Owner:</p><p>${data.owner.login}</p></div>
-  <div><p>Stars:</p><p>${data.stargazers_count}</p></div>`;
+  const repoInfo = createEl("div", "repos__infoList");
+  repoInfo.innerHTML = `<div class="repos__textInfo"><div class = "repos__name"><p>Name: ${data.name}</p></div>
+  <div class = "repos__owner"><p>Owner: ${data.owner.login}</p></div>
+  <div class = "repos__stars"><p>Stars: ${data.stargazers_count}</p></div>
+  <div class="border"></div></div>
+  <div class="button repos__button"></div><button class="button__close" type="button"></button></div>`;
   reposInfo.appendChild(repoInfo);
 }
+
+document.querySelector("body").onclick = function (e) {
+  if (e.target.className != "button__close") {
+    return;
+  }
+  let item = e.target.closest(".repos__infoList");
+  item.remove();
+};
